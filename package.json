@@ -1,0 +1,73 @@
+{
+  "name": "sns-domain-registration",
+  "version": "0.1.0",
+  "description": "Quick .sol domain search and registration",
+  "type": "module",
+  "main": "dist/sns-widget.mjs",
+  "module": "dist/sns-widget.mjs",
+  "exports": {
+    "./style.css": "./dist/style.css",
+    ".": {
+      "import": "./dist/sns-widget.mjs",
+      "require": "./dist/sns-widget.umd.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "engines": {
+    "node": ">18"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "analyse": "vite-bundle-visualizer"
+  },
+  "peerDependencies": {
+    "@bonfida/emojis": "^1.0.1",
+    "@solana/wallet-adapter-react": "^0.15",
+    "@solana/wallet-adapter-react-ui": "^0.9",
+    "@solana/wallet-adapter-wallets": "^0.19.23",
+    "@solana/web3.js": "^1.78",
+    "@foxwallet/wallet-adapter-foxwallet": "^0.1.1",
+    "@pythnetwork/client": "^2.7",
+    "@bonfida/spl-name-service": "^1.4.0",
+    "ahooks": "^3",
+    "react": "^18",
+    "react-async-hook": "^4.0.0",
+    "react-dom": "^18",
+    "split-graphemes": "^0.5.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.23",
+    "@types/react-dom": "^18.2.8",
+    "@typescript-eslint/eslint-plugin": "^6.7.3",
+    "@typescript-eslint/parser": "^6.7.3",
+    "@vitejs/plugin-react": "^4.1.0",
+    "autoprefixer": "^10.4.16",
+    "eslint": "^8.50.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.3",
+    "postcss": "^8.4.30",
+    "prettier": "3.0.3",
+    "tailwind-merge": "^1.14.0",
+    "tailwindcss": "^3.3.3",
+    "typescript": "^5.2.2",
+    "vite": "^4.4.9",
+    "vite-bundle-visualizer": "^0.10.0",
+    "vite-plugin-dts": "^3.6.0",
+    "vite-plugin-node-polyfills": "^0.16.0"
+  },
+  "dependencies": {
+    "@bonfida/emojis": "^1.0.1",
+    "@bonfida/spl-name-service": "^1.4.0",
+    "@foxwallet/wallet-adapter-foxwallet": "^0.1.1",
+    "@pythnetwork/client": "^2.19.0",
+    "@solana/wallet-adapter-react": "^0.15",
+    "@solana/wallet-adapter-react-ui": "^0.9",
+    "@solana/wallet-adapter-wallets": "^0.19.23",
+    "@solana/web3.js": "^1.78",
+    "ahooks": "^3",
+    "react-async-hook": "^4.0.0",
+    "split-graphemes": "^0.5.0"
+  }
+}
