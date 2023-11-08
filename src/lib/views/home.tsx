@@ -75,7 +75,7 @@ export const WidgetHome = ({
         className,
       )}
       style={style}
-      aria-label="SNS widget allows you to quickly search and buy .sol domains"
+      aria-label="Allows you to quickly search and buy .sol domains"
     >
       {status && <GlobalStatusCard status={status} />}
 

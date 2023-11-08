@@ -14,7 +14,7 @@ export default defineConfig(({ mode }) => {
     build: {
       lib: {
         entry: resolvePath("src/lib/index.tsx"),
-        name: "SNS Widget",
+        name: "SNS Registration",
         formats: ["es", "cjs", "umd"],
         fileName: (format) =>
           `sns-widget.${
