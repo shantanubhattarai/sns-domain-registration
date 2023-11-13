@@ -5,7 +5,7 @@ export const tokenList = [
     mintAddress: "N/A",
     tokenName: "Select a Token",
     pythFeed: "N/A",
-    icon: "N/A",
+    icon: `data:image/svg+xml,%3Csvg xmlns="http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg" width="24" height="24" viewBox="0 0 24 24"%3E%3Cpath fill="currentColor" fill-rule="evenodd" d="M12.53 16.28a.75.75 0 0 1-1.06 0l-7.5-7.5a.75.75 0 0 1 1.06-1.06L12 14.69l6.97-6.97a.75.75 0 1 1 1.06 1.06l-7.5 7.5Z" clip-rule="evenodd"%2F%3E%3C%2Fsvg%3E`,
   },
   {
     decimals: 6,

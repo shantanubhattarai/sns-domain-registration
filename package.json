@@ -3,21 +3,12 @@
   "version": "0.1.0",
   "description": "Quick .sol domain search and registration",
   "type": "module",
-  "main": "dist/sns-widget.mjs",
-  "module": "dist/sns-widget.mjs",
-  "exports": {
-    "./style.css": "./dist/style.css",
-    ".": {
-      "import": "./dist/sns-widget.mjs",
-      "require": "./dist/sns-widget.umd.js",
-      "types": "./dist/index.d.ts"
-    }
-  },
   "engines": {
     "node": ">18"
   },
   "scripts": {
     "dev": "vite",
+    "preview": "vite preview",
     "build": "tsc && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "analyse": "vite-bundle-visualizer"

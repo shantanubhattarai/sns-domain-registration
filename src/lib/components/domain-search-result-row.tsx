@@ -1,4 +1,4 @@
-import { ShoppingBasketHorizontal, Tick, TrashBent } from "../components/icons";
+import { Tick, TrashBent } from "../components/icons";
 import { useContext, useEffect, useState } from "react";
 
 import { CartContext } from "../contexts/cart";
