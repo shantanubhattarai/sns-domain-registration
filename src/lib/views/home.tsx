@@ -1,57 +1,29 @@
-import {
-  type FormEvent,
-  useState,
-  useContext,
-  type CSSProperties,
-} from "react";
-import { InputField } from "../components/input-field";
-import { SearchShort, ShoppingBasketHorizontal } from "../components/icons";
+import { useState, useContext, type CSSProperties } from "react";
 import { twMerge } from "tailwind-merge";
-import { CartContext } from "../contexts/cart";
-import { DomainSearchResultRow } from "../components/domain-search-result-row";
-import { DomainCardSkeleton } from "../components/domain-card-skeleton";
-import { CustomButton } from "../components/button";
 import { FidaLogo } from "../components/fida-logo";
 import { CartView } from "./cart";
-import { useWalletPassThrough } from "../contexts/wallet-passthrough-provider";
-import { useSearch } from "../hooks/useSearch";
-import { sanitize } from "../utils";
-import { useDomainSuggestions } from "../hooks/useDomainSuggestions";
 import { ConnectWalletButton } from "../components/connect-wallet-button";
 import { GlobalStatusCard } from "../components/global-status";
 import { GlobalStatusContext } from "../contexts/status-messages";
 import { WidgetProps } from "..";
-
+import CartLinkButton from "../components/cart-link-button";
+import SearchForm from "../components/search-form";
+import SearchView from "../components/searchview";
+import HomeFooter from "../components/homeview/home-footer";
 type Views = "home" | "search" | "cart";
 
-export const WidgetHome = ({
-  className,
-  style,
-  partnerLogo,
-}: {
+type Props = {
   className?: string;
   style?: CSSProperties;
   partnerLogo?: WidgetProps["partnerLogo"];
-} = {}) => {
-  const {
-    connected,
-    setVisible,
-    visible: isWalletSelectorVisible,
-  } = useWalletPassThrough();
+};
+
+export const WidgetHome = ({ className, style, partnerLogo }: Props = {}) => {
   const [currentView, setCurrentView] = useState<Views>("home");
   const [finished, toggleTransitionFinish] = useState(false);
   const [searchInput, updateSearchInput] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
-  const { isCartEmpty, cartItemsNumber } = useContext(CartContext);
   const { status } = useContext(GlobalStatusContext);
-  const domains = useSearch(searchQuery);
-  const suggestions = useDomainSuggestions(searchQuery);
-
-  const search = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    setCurrentView("search");
-    setSearchQuery(searchInput);
-  };
 
   const resetView = (hard = false) => {
     if (hard) {
@@ -93,127 +65,28 @@ export const WidgetHome = ({
             )}
           </div>
         )}
-        <button
-          className="flex items-center gap-1 ml-auto text-theme-primary disabled:text-theme-secondary"
-          disabled={!connected || isCartEmpty}
-          onClick={() => {
-            if (connected) setCurrentView("cart");
-          }}
-        >
-          <ShoppingBasketHorizontal /> {cartItemsNumber}
-        </button>
-
+        <CartLinkButton setCurrentView={setCurrentView} />
         <ConnectWalletButton />
       </div>
 
       <div className="flex flex-col flex-grow overflow-auto">
         {(isHomeView || isSearchView) && (
           <>
-            <div
-              className={twMerge(
-                "translate-y-[80px] transition-all duration-700 px-3",
-                isSearchView && "-translate-y-[22px]",
-              )}
-            >
-              <h1
-                className={twMerge(
-                  "block max-h-[32px] text-2xl font-medium text-center font-primary transition-[opacity] ease-out duration-200",
-                  isSearchView && "opacity-0 invisible",
-                  finished && "max-h-0",
-                )}
-                onTransitionEnd={() => {
-                  if (isSearchView) toggleTransitionFinish(true);
-                }}
-              >
-                Secure a custom domain
-              </h1>
-
-              <form className="flex gap-2 mt-10" onSubmit={search}>
-                <InputField
-                  value={searchInput}
-                  placeholder="Search your domain"
-                  autoCapitalize="off"
-                  spellCheck="false"
-                  enterKeyHint="search"
-                  type="search"
-                  required
-                  onChange={(e) =>
-                    updateSearchInput(sanitize(e.target.value, searchInput))
-                  }
-                />
-
-                <button
-                  className="
-                    rounded-[10px] bg-background-primary h-[64px] w-[64px] p-2
-                    flex items-center justify-center text-theme-primary
-                    border
-                    border-interactive-border
-                    hover:border-theme-primary
-                    active:bg-theme-primary active:text-base-button-content
-                  "
-                  tabIndex={0}
-                >
-                  <SearchShort width={24} height={24} />
-                </button>
-              </form>
-            </div>
+            <SearchForm
+              isSearchView={isSearchView}
+              finished={finished}
+              searchInput={searchInput}
+              setCurrentView={setCurrentView}
+              setSearchQuery={setSearchQuery}
+              toggleTransitionFinish={toggleTransitionFinish}
+              updateSearchInput={updateSearchInput}
+            />
 
             {isSearchView && (
-              <>
-                <div className="px-3 mb-3 overflow-auto animate-fade-in">
-                  {domains.loading ? (
-                    <DomainCardSkeleton />
-                  ) : (
-                    <>
-                      {domains.result?.map((domain) => (
-                        <DomainSearchResultRow
-                          key={domain.domain}
-                          domain={domain.domain}
-                          available={domain.available}
-                        />
-                      ))}
-                    </>
-                  )}
-
-                  <div className="mt-4">
-                    <div className="flex flex-col gap-2 pb-14">
-                      {suggestions.loading ? (
-                        <>
-                          {new Array(5).fill(0).map((_, index) => (
-                            <DomainCardSkeleton key={index} />
-                          ))}
-                        </>
-                      ) : (
-                        <>
-                          <p className="mb-2 text-md text-text-secondary font-primary">
-                            You might also like
-                          </p>
-                          {suggestions.result?.map((domain) => (
-                            <DomainSearchResultRow
-                              key={domain.domain}
-                              domain={domain.domain}
-                              available={domain.available}
-                            />
-                          ))}
-                        </>
-                      )}
-                    </div>
-                  </div>
-                </div>
-                {!isCartEmpty && (
-                  <div className="absolute w-full left-3 right-3 bottom-3">
-                    <CustomButton
-                      className="px-16 mx-auto shadow-md text-base-button-content hover:bg-background-primary hover:text-theme-primary hover:border"
-                      onClick={() => {
-                        if (connected) setCurrentView("cart");
-                        else setVisible(!isWalletSelectorVisible);
-                      }}
-                    >
-                      {connected ? "Go to cart" : "Connect your wallet"}
-                    </CustomButton>
-                  </div>
-                )}
-              </>
+              <SearchView
+                setCurrentView={setCurrentView}
+                searchQuery={searchQuery}
+              />
             )}
           </>
         )}
@@ -221,16 +94,7 @@ export const WidgetHome = ({
         {isCartView && <CartView backHandler={resetView} />}
       </div>
 
-      {isHomeView && (
-        <div className="p-3">
-          <div className="flex items-center justify-center gap-2 text-sm font-medium text-center text-text-primary">
-            Powered by
-            <span className="h-[20px]">
-              <FidaLogo />
-            </span>
-          </div>
-        </div>
-      )}
+      {isHomeView && <HomeFooter />}
     </div>
   );
 };

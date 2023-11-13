@@ -1,10 +1,4 @@
 import {
-  ArrowLeft,
-  Information,
-  RemoveThin,
-  WalletClose,
-} from "../../components/icons";
-import {
   FIDA_MINT,
   chunkIx,
   formatPrice,
@@ -22,6 +16,7 @@ import {
 import { useContext, useEffect, useState } from "react";
 import { usePyth, useWalletBalances } from "../../hooks";
 
+import BackButton from "../../components/cartview/back-button";
 import { BaseModal } from "../../components/modal";
 import { CartContext } from "../../contexts/cart";
 import { CartError } from "./error";
@@ -30,6 +25,9 @@ import { CartSuccess } from "./success";
 import { CustomButton } from "../../components/button";
 import { DomainCartItem } from "../../components/domain-cart-item";
 import { GlobalStatusContext } from "../../contexts/status-messages";
+import ProgressBar from "../../components/cartview/progress-bar";
+import StorageSelectModal from "../../components/cartview/storage-select-modal";
+import { WalletClose } from "../../components/icons";
 import { WalletSignTransactionError } from "@solana/wallet-adapter-base";
 import { registerDomainName } from "@bonfida/spl-name-service";
 import { twMerge } from "tailwind-merge";
@@ -41,26 +39,13 @@ interface CartViewProps {
   backHandler: (hard?: boolean) => void;
 }
 
-const SIZES_LIST = [
-  { label: "1kb", value: 1_000 },
-  { label: "2kb", value: 2_000 },
-  { label: "3kb", value: 3_000 },
-  { label: "4kb", value: 4_000 },
-  { label: "5kb", value: 5_000 },
-  { label: "6kb", value: 6_000 },
-  { label: "7kb", value: 7_000 },
-  { label: "8kb", value: 8_000 },
-  { label: "9kb", value: 9_000 },
-  { label: "10kb", value: 10_000 },
-];
-
 export const CartView = ({ backHandler }: CartViewProps) => {
   const pyth = usePyth();
   const { publicKey, connection, signAllTransactions } = useWalletPassThrough();
   const { balances } = useWalletBalances();
 
   const [step, setStep] = useState<Step>(1);
-  const { cart, emptyCart, addToCart } = useContext(CartContext);
+  const { cart, emptyCart } = useContext(CartContext);
   const { setError } = useContext(GlobalStatusContext);
   const [selectedToken, selectToken] = useState(tokenList[0]);
   const [isTokenSelectorOpen, toggleTokenSelector] = useState(false);
@@ -96,12 +81,6 @@ export const CartView = ({ backHandler }: CartViewProps) => {
       backHandler();
     }
   }, [cart, backHandler]);
-
-  const progressWidth: Record<Step, string> = {
-    1: "w-[33%]",
-    2: "w-[66%]",
-    3: "w-full",
-  };
 
   const goBack = () => {
     if (step === 2) {
@@ -203,24 +182,9 @@ export const CartView = ({ backHandler }: CartViewProps) => {
   return (
     <div className="flex flex-col flex-grow pb-14">
       <div className="sticky -top-1 bg-background-primary h-[48px] flex justify-center items-center px-3">
-        <button
-          type="button"
-          tabIndex={0}
-          onClick={goBack}
-          disabled={formState === "processing"}
-          className="absolute top-0 p-3 border-0 left-3 text-theme-primary dark:text-theme-secondary"
-        >
-          <ArrowLeft width={24} height={24} />
-        </button>
+        <BackButton goBack={goBack} formState={formState} />
 
-        <div className="w-[175px] h-[5px] rounded-md bg-background-interactive dark:bg-background-secondary bg-gradient-to-r">
-          <div
-            className={twMerge(
-              "bg-theme-primary dark:bg-theme-secondary h-full rounded-md transition-[width] duration-500",
-              progressWidth[step],
-            )}
-          ></div>
-        </div>
+        <ProgressBar step={step} />
       </div>
       <div className="flex flex-col flex-grow pt-6 body">
         {formState === "success" && <CartSuccess />}
@@ -244,69 +208,10 @@ export const CartView = ({ backHandler }: CartViewProps) => {
                   ))}
                 </div>
 
-                <BaseModal
-                  isVisible={!!selectedStorageDomain}
-                  toggleVisibility={() => editStorageForDomain("")}
-                >
-                  {!!selectedStorageDomain && (
-                    <div className="w-[320px] p bg-background-primary flex flex-col gap-3 p-4 rounded-xl border border-field-border">
-                      <p className="flex items-center justify-between text-lg font-medium font-primary">
-                        <span>Storage size</span>
-                        <button
-                          type="button"
-                          tabIndex={0}
-                          className=""
-                          onClick={() => editStorageForDomain("")}
-                        >
-                          <RemoveThin width={24} height={24} />
-                        </button>
-                      </p>
-
-                      <div className="text-sm">
-                        <p className="mb-2">
-                          The storage size will determine the maximum amount of
-                          data you can store on your domain.
-                        </p>
-
-                        <p className="flex items-center justify-start gap-2 text-xs text-accent">
-                          <Information
-                            width={24}
-                            height={24}
-                            className="inline mr-1 mb-[2px] text-accent"
-                          />
-                          Each additional kb of memory costs around 0.007 SOL
-                          (0.001 USDC)
-                        </p>
-                      </div>
-
-                      <div className="grid grid-cols-5 gap-2">
-                        {SIZES_LIST.map((size) => {
-                          const domain = cart[selectedStorageDomain];
-
-                          const selected = size.value === domain?.storage;
-
-                          return (
-                            <button
-                              type="button"
-                              tabIndex={0}
-                              key={size.value}
-                              className={twMerge(
-                                "border-2 border-solid rounded-lg px-2 py-2 border-theme-primary border-opacity-10 text-sm",
-                                selected && "border-opacity-100",
-                              )}
-                              onClick={() => {
-                                addToCart({ ...domain, storage: size.value });
-                                editStorageForDomain("");
-                              }}
-                            >
-                              {size.label}
-                            </button>
-                          );
-                        })}
-                      </div>
-                    </div>
-                  )}
-                </BaseModal>
+                <StorageSelectModal
+                  editStorageForDomain={editStorageForDomain}
+                  selectedStorageDomain={selectedStorageDomain}
+                />
               </>
             )}
             {step === 2 && (
