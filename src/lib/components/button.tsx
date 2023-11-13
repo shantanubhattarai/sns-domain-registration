@@ -1,4 +1,5 @@
 import type { ButtonHTMLAttributes, ReactNode } from "react";
+
 import { twMerge } from "tailwind-merge";
 
 type Sizes = "full" | "small";
@@ -25,7 +26,7 @@ export const CustomButton = ({
         "flex items-center gap-2 px-3 justify-center text-white font-primary bg-theme-primary",
         size === "full" && "py-2.5 rounded-xl tracking-wide",
         size === "small" && "text-sm py-1 rounded-lg",
-        disabled && "bg-theme-secondary",
+        "disabled:bg-theme-secondary disabled:",
         className,
       )}
     >

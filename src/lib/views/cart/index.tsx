@@ -155,8 +155,6 @@ export const CartView = ({ backHandler }: CartViewProps) => {
           buyer,
           ata,
           mintKey,
-          // TODO: define referrer code here
-          // referrer ? REFERRERS[referrer] : undefined,
         );
         ixs.push(...ix);
       }
@@ -251,29 +249,29 @@ export const CartView = ({ backHandler }: CartViewProps) => {
                   toggleVisibility={() => editStorageForDomain("")}
                 >
                   {!!selectedStorageDomain && (
-                    <div className="w-[320px] p bg-background-primary flex flex-col gap-3 p-4 rounded-xl">
-                      <p className="flex items-start justify-between text-lg font-medium font-primary">
-                        Storage size
+                    <div className="w-[320px] p bg-background-primary flex flex-col gap-3 p-4 rounded-xl border border-field-border">
+                      <p className="flex items-center justify-between text-lg font-medium font-primary">
+                        <span>Storage size</span>
                         <button
                           type="button"
                           tabIndex={0}
-                          className="p-1 -mt-3 -mr-3"
+                          className=""
                           onClick={() => editStorageForDomain("")}
                         >
                           <RemoveThin width={24} height={24} />
                         </button>
                       </p>
 
-                      <div className="text-xs">
+                      <div className="text-sm">
                         <p className="mb-2">
                           The storage size will determine the maximum amount of
                           data you can store on your domain.
                         </p>
 
-                        <p className="">
+                        <p className="flex items-center justify-start gap-2 text-xs text-accent">
                           <Information
-                            width={16}
-                            height={16}
+                            width={24}
+                            height={24}
                             className="inline mr-1 mb-[2px] text-accent"
                           />
                           Each additional kb of memory costs around 0.007 SOL
@@ -284,7 +282,7 @@ export const CartView = ({ backHandler }: CartViewProps) => {
                       <div className="grid grid-cols-5 gap-2">
                         {SIZES_LIST.map((size) => {
                           const domain = cart[selectedStorageDomain];
-                          // TODO: autofous selected on modal open
+
                           const selected = size.value === domain?.storage;
 
                           return (
@@ -372,8 +370,8 @@ export const CartView = ({ backHandler }: CartViewProps) => {
                   isVisible={isTokenSelectorOpen}
                   toggleVisibility={toggleTokenSelector}
                 >
-                  <div className="w-[320px] bg-background-primary flex flex-col gap-3 py-3 rounded-xl">
-                    {tokenList.map((item) => {
+                  <div className="w-[320px] bg-background-primary flex flex-col gap-3 py-3 rounded-xl border border-field-border">
+                    {tokenList.slice(1).map((item) => {
                       const total = getTotalPriceWithDiscount(item.mintAddress);
                       const isNotEnoughFunds =
                         balances[item.tokenSymbol] < total;
@@ -450,10 +448,15 @@ export const CartView = ({ backHandler }: CartViewProps) => {
         <div className="absolute flex flex-col gap-2 left-3 right-3 bottom-4">
           <CustomButton
             className={twMerge(
-              "text-base-button-content",
+              "px-16 mx-auto shadow-md text-base-button-content enabled:hover:bg-background-primary enabled:hover:text-theme-primary enabled:hover:border",
               formState === "error" && "bottom-[70px]",
             )}
             onClick={processStep}
+            disabled={
+              step === 2 &&
+              formState === "registering" &&
+              selectedToken.decimals === tokenList[0].decimals
+            }
           >
             {step === 1 && "Continue to payment"}
             {step === 2 &&

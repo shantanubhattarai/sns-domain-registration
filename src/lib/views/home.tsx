@@ -82,7 +82,7 @@ export const WidgetHome = ({
       <div className="flex items-center justify-end px-3 pt-3">
         {!isHomeView && (
           <div className="flex items-center justify-center gap-2 text-sm font-medium text-center text-text-primary">
-            <span className="h-[26px] flex">
+            <span className="h-[26px] flex" onClick={() => resetView(true)}>
               <FidaLogo />
             </span>
             {partnerLogo && (
@@ -135,7 +135,6 @@ export const WidgetHome = ({
                   autoCapitalize="off"
                   spellCheck="false"
                   enterKeyHint="search"
-                  className="shadow-3xl dark:shadow-none"
                   type="search"
                   required
                   onChange={(e) =>
@@ -145,8 +144,12 @@ export const WidgetHome = ({
 
                 <button
                   className="
-                    rounded-[10px] bg-theme-primary h-[56px] w-[56px] p-2
-                    flex items-center justify-center text-base-button-content
+                    rounded-[10px] bg-background-primary h-[64px] w-[64px] p-2
+                    flex items-center justify-center text-theme-primary
+                    border
+                    border-interactive-border
+                    hover:border-theme-primary
+                    active:bg-theme-primary active:text-base-button-content
                   "
                   tabIndex={0}
                 >
@@ -173,10 +176,6 @@ export const WidgetHome = ({
                   )}
 
                   <div className="mt-4">
-                    <p className="mb-2 ml-4 text-sm text-text-secondary font-primary">
-                      You might also like
-                    </p>
-
                     <div className="flex flex-col gap-2 pb-14">
                       {suggestions.loading ? (
                         <>
@@ -186,6 +185,9 @@ export const WidgetHome = ({
                         </>
                       ) : (
                         <>
+                          <p className="mb-2 text-md text-text-secondary font-primary">
+                            You might also like
+                          </p>
                           {suggestions.result?.map((domain) => (
                             <DomainSearchResultRow
                               key={domain.domain}
@@ -199,15 +201,17 @@ export const WidgetHome = ({
                   </div>
                 </div>
                 {!isCartEmpty && (
-                  <CustomButton
-                    className="absolute left-3 right-3 bottom-3 text-base-button-content"
-                    onClick={() => {
-                      if (connected) setCurrentView("cart");
-                      else setVisible(!isWalletSelectorVisible);
-                    }}
-                  >
-                    {connected ? "Go to cart" : "Connect your wallet"}
-                  </CustomButton>
+                  <div className="absolute w-full left-3 right-3 bottom-3">
+                    <CustomButton
+                      className="px-16 mx-auto shadow-md text-base-button-content hover:bg-background-primary hover:text-theme-primary hover:border"
+                      onClick={() => {
+                        if (connected) setCurrentView("cart");
+                        else setVisible(!isWalletSelectorVisible);
+                      }}
+                    >
+                      {connected ? "Go to cart" : "Connect your wallet"}
+                    </CustomButton>
+                  </div>
                 )}
               </>
             )}

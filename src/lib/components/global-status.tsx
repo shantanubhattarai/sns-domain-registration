@@ -16,7 +16,7 @@ export const GlobalStatusCard = ({ status }: { status: GlobalStatus }) => {
   return (
     <div
       className={twMerge(
-        "bg-background-primary border border-interactive-border",
+        "bg-background-primary border border-field-border",
         "shadow-xl dark:shadow-none",
         "absolute top-2.5 left-3 right-3 rounded-lg py-3 px-4 flex gap-2 z-10 overflow-hidden",
       )}

@@ -41,7 +41,7 @@ export const DomainSearchResultRow = ({
     <DomainCardBase domain={domain} available={available} price={price}>
       {!available && (
         <div className="px-3 rounded-lg bg-accent bg-opacity-10">
-          <span className="text-xs font-semibold leading-6 tracking-widest text-accent">
+          <span className="text-sm font-semibold leading-6 tracking-wider text-accent">
             Registered
           </span>
         </div>
@@ -56,7 +56,7 @@ export const DomainSearchResultRow = ({
           <button
             type="button"
             className={twMerge(
-              "flex items-center gap-2 px-3 py-1 text-sm text-base-button-content rounded-lg font-primary bg-theme-primary",
+              "flex items-center gap-2 px-4 py-2 text-sm text-theme-primary rounded-lg font-primary bg-background-primary border border-interactive-border hover:border-theme-primary active:bg-theme-primary active:text-base-button-content",
               isInCart &&
                 showRemoveButton &&
                 "bg-transparent text-theme-primary dark:text-theme-secondary",
@@ -69,10 +69,7 @@ export const DomainSearchResultRow = ({
             }
           >
             {!isInCart ? (
-              <>
-                Add to cart
-                <ShoppingBasketHorizontal width={20} height={20} />
-              </>
+              <>Add to cart</>
             ) : (
               <>
                 {showRemoveButton ? (

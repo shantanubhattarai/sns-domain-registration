@@ -1,5 +1,13 @@
 export const tokenList = [
   {
+    decimals: 0,
+    tokenSymbol: "Select Payment Method",
+    mintAddress: "N/A",
+    tokenName: "Select a Token",
+    pythFeed: "N/A",
+    icon: "N/A",
+  },
+  {
     decimals: 6,
     tokenSymbol: "USDC",
     mintAddress: "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",

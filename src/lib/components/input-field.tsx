@@ -19,7 +19,7 @@ export const InputField = ({
         ref={input}
         value={value}
         className={twMerge(
-          "w-full h-full px-3 py-4 text-sm border border-opacity-25 rounded-xl border-field-border dark:border-interactive-border bg-background-secondary text-ellipsis",
+          "w-full h-full px-3 py-4 text-xl border border-opacity-25 rounded-xl border-field-border dark:border-interactive-border bg-background-secondary text-ellipsis",
           className,
           type === "search" && "pr-8",
         )}

@@ -26,7 +26,7 @@ export const useWalletBalances = () => {
     if (publicKey) {
       const balances: Record<string, number> = {};
 
-      for (const token of tokenList) {
+      for (const token of tokenList.slice(1)) {
         const mint = new PublicKey(token.mintAddress);
         const ata = getAssociatedTokenAddressSync(mint, publicKey);
         const balance = await getTokenAccountBalance(connection!, ata);

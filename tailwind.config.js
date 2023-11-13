@@ -9,7 +9,7 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        primary: ['"Gantari"', "sans-serif"],
+        primary: ['"IBM Plex Sans"', "sans-serif"],
       },
       keyframes: {
         "fade-in": {
