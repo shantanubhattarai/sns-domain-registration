@@ -43,7 +43,8 @@ export const WidgetHome = ({ className, style, partnerLogo }: Props = {}) => {
   return (
     <div
       className={twMerge(
-        "flex flex-col bg-background-primary rounded-lg relative text-text-primary h-full",
+        "flex flex-col rounded-lg relative h-full",
+        "bg-background-primary text-text-primary",
         className,
       )}
       style={style}
@@ -53,7 +54,12 @@ export const WidgetHome = ({ className, style, partnerLogo }: Props = {}) => {
 
       <div className="flex items-center justify-end px-3 pt-3">
         {!isHomeView && (
-          <div className="flex items-center justify-center gap-2 text-sm font-medium text-center text-text-primary">
+          <div
+            className="
+              flex items-center justify-center gap-2
+              text-sm font-medium text-center
+              text-text-primary"
+          >
             <span className="h-[26px] flex" onClick={() => resetView(true)}>
               <FidaLogo />
             </span>

@@ -1,5 +1,6 @@
+import { PropsWithChildren, ReactNode, createContext, useContext } from "react";
+
 import { Connection } from "@solana/web3.js";
-import { createContext, PropsWithChildren, ReactNode, useContext } from "react";
 import { useConnection } from "@solana/wallet-adapter-react";
 
 interface ConnectionPassThroughStructure {
@@ -9,6 +10,7 @@ interface ConnectionPassThroughStructure {
 export const ConnectionPassthroughContext =
   createContext<ConnectionPassThroughStructure>({ connection: null });
 
+// eslint-disable-next-line react-refresh/only-export-components
 export function useConnectionPassThrough(): ConnectionPassThroughStructure {
   return useContext(ConnectionPassthroughContext);
 }

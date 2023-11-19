@@ -1,9 +1,10 @@
+import { PropsWithChildren, ReactNode, createContext, useContext } from "react";
+
 import { Connection } from "@solana/web3.js";
-import { createContext, PropsWithChildren, ReactNode, useContext } from "react";
+import type { WalletPassThroughProps } from "../types";
+import { useConnectionPassThrough } from "./connection-passthrough-provider";
 import { useWallet as useWalletAdapterReact } from "@solana/wallet-adapter-react";
 import { useWalletModal } from "@solana/wallet-adapter-react-ui";
-import { useConnectionPassThrough } from "./connection-passthrough-provider";
-import type { WalletPassThroughProps } from "../types";
 
 interface WalletPassThroughStructure extends WalletPassThroughProps {
   connection: Connection | null;
@@ -27,6 +28,7 @@ const initialPassThrough: WalletPassThroughStructure = {
 export const WalletPassthroughContext =
   createContext<WalletPassThroughStructure>(initialPassThrough);
 
+// eslint-disable-next-line react-refresh/only-export-components
 export function useWalletPassThrough(): WalletPassThroughStructure {
   return useContext(WalletPassthroughContext);
 }
