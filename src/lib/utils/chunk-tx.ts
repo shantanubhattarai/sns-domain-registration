@@ -1,7 +1,7 @@
 import {
-  PublicKey,
+  type PublicKey,
   Transaction,
-  TransactionInstruction,
+  type TransactionInstruction,
 } from "@solana/web3.js";
 
 const MAX = 1_232;

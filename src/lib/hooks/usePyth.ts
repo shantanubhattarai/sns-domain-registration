@@ -1,6 +1,6 @@
 import { parsePriceData } from "@pythnetwork/client";
 import { useAsync } from "react-async-hook";
-import { PublicKey, Connection } from "@solana/web3.js";
+import { PublicKey, type Connection } from "@solana/web3.js";
 import { useConnectionPassThrough } from "../contexts/connection-passthrough-provider";
 import { tokenList } from "../utils/tokens";
 

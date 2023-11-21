@@ -1,4 +1,4 @@
-import { Connection, LAMPORTS_PER_SOL, PublicKey } from "@solana/web3.js";
+import { type Connection, LAMPORTS_PER_SOL, PublicKey } from "@solana/web3.js";
 import { NATIVE_MINT, getAssociatedTokenAddressSync } from "@solana/spl-token";
 import { useCallback, useEffect, useState } from "react";
 

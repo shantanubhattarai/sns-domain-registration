@@ -1,6 +1,6 @@
 import { PropsWithChildren, ReactNode, createContext, useContext } from "react";
 
-import { Connection } from "@solana/web3.js";
+import type { Connection } from "@solana/web3.js";
 import type { WalletPassThroughProps } from "../types";
 import { useConnectionPassThrough } from "./connection-passthrough-provider";
 import { useWallet as useWalletAdapterReact } from "@solana/wallet-adapter-react";

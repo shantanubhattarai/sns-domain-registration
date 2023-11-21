@@ -20,7 +20,7 @@ import {
 } from "@solana/wallet-adapter-react";
 import { Fragment, ReactNode, useMemo } from "react";
 
-import { Connection } from "@solana/web3.js";
+import type { Connection } from "@solana/web3.js";
 import { ConnectionPassthroughProvider } from "./connection-passthrough-provider";
 import { FoxWalletWalletAdapter } from "@foxwallet/wallet-adapter-foxwallet";
 import { WalletModalProvider } from "@solana/wallet-adapter-react-ui";

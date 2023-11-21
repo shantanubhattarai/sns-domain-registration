@@ -1,7 +1,7 @@
 import {
-  PublicKey,
-  Connection,
-  TransactionInstruction,
+  type PublicKey,
+  type Connection,
+  type TransactionInstruction,
   SystemProgram,
 } from "@solana/web3.js";
 import {
@@ -14,7 +14,7 @@ export const wrapSol = async (
   connection: Connection,
   ata: PublicKey,
   owner: PublicKey,
-  amount: number
+  amount: number,
 ) => {
   let transferAmount = amount;
   const instructions: TransactionInstruction[] = [];
@@ -27,7 +27,7 @@ export const wrapSol = async (
       owner,
       ata,
       owner,
-      NATIVE_MINT
+      NATIVE_MINT,
     );
     instructions.push(ix);
   } else {

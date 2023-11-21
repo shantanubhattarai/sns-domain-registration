@@ -11,7 +11,7 @@ import { NATIVE_MINT, getAssociatedTokenAddressSync } from "@solana/spl-token";
 import {
   PublicKey,
   Transaction,
-  TransactionInstruction,
+  type TransactionInstruction,
 } from "@solana/web3.js";
 import { useContext, useEffect, useState } from "react";
 import { usePyth, useWalletBalances } from "../../hooks";
