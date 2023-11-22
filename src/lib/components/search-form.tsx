@@ -3,6 +3,7 @@ import { InputField } from "./input-field";
 import { SearchShort } from "./icons";
 import { sanitize } from "../utils";
 import { twMerge } from "tailwind-merge";
+import { useState } from "react";
 
 type Views = "home" | "search" | "cart";
 
@@ -29,6 +30,32 @@ const SearchForm = ({
     event.preventDefault();
     setCurrentView("search");
     setSearchQuery(searchInput);
+  };
+
+  const [invalidSearchQuery, setInvalidSearchQuery] = useState(false);
+  const [timeoutId, setTimeoutId] = useState<ReturnType<
+    typeof setTimeout
+  > | null>(null);
+
+  const onSearchQueryUpdate = (value: string) => {
+    setInvalidSearchQuery(false);
+    if (timeoutId) clearTimeout(timeoutId);
+
+    updateSearchInput(
+      sanitize({
+        value,
+        prev: searchInput,
+        onError: () => {
+          setInvalidSearchQuery(true);
+
+          const timeoutId = setTimeout(() => {
+            setInvalidSearchQuery(false);
+          }, 3000);
+
+          setTimeoutId(timeoutId);
+        },
+      }),
+    );
   };
 
   return (
@@ -60,9 +87,10 @@ const SearchForm = ({
           enterKeyHint="search"
           type="search"
           required
-          onChange={(e) =>
-            updateSearchInput(sanitize(e.target.value, searchInput))
+          errorMessage={
+            invalidSearchQuery ? "Character not allowed" : undefined
           }
+          onChange={(e) => onSearchQueryUpdate(e.target.value)}
         />
 
         <button

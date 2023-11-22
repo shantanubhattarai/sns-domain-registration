@@ -7,18 +7,27 @@ import {
 
 const forbidden = ["", "."];
 
-export const sanitize = (current: string, prev: string) => {
-  if (forbidden.includes(current)) return "";
+export const sanitize = ({
+  value,
+  prev,
+  onError,
+}: {
+  value: string;
+  prev: string;
+  onError?: () => void;
+}) => {
+  if (forbidden.includes(value)) return "";
 
-  if (current.endsWith(".sol")) {
-    current = current.split(".sol")[0];
+  if (value.endsWith(".sol")) {
+    value = value.split(".sol")[0];
   }
-  const lowerTrim = current.toLowerCase().trim();
+  const lowerTrim = value.toLowerCase().trim();
 
   const splitted = lowerTrim.split(".");
   const n = splitted.length;
 
   if (n > 2) {
+    onError?.();
     return prev;
   }
 
@@ -26,8 +35,14 @@ export const sanitize = (current: string, prev: string) => {
     const isAlpha = isAlphabetical(x);
     const certified = certifyEmoji(x);
 
-    if (!isAlpha && !certified) return prev;
-    if (!checkLanguage(x, findCharLanguage(current[0] || ""))) return prev;
+    if (!isAlpha && !certified) {
+      onError?.();
+      return prev;
+    }
+    if (!checkLanguage(x, findCharLanguage(value[0] || ""))) {
+      onError?.();
+      return prev;
+    }
   }
 
   return lowerTrim;

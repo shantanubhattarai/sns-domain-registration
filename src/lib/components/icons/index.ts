@@ -9,3 +9,4 @@ export * from "./SearchShort";
 export * from "./CheckMarkCircle";
 export * from "./ArrowLeft";
 export * from "./Information";
+export * from "./DirectionDown";

@@ -3,12 +3,15 @@ import { InputHTMLAttributes, useRef } from "react";
 import { RemoveThin } from "../components/icons";
 import { twMerge } from "tailwind-merge";
 
-interface InputProps extends InputHTMLAttributes<HTMLInputElement> {}
+interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
+  errorMessage?: string;
+}
 
 export const InputField = ({
   type = "text",
   value,
   className,
+  errorMessage,
   ...params
 }: InputProps = {}) => {
   const input = useRef<HTMLInputElement>(null);
@@ -40,6 +43,11 @@ export const InputField = ({
         >
           <RemoveThin width={24} height={24} />
         </button>
+      )}
+      {errorMessage && (
+        <p className="absolute top-[calc(100%+4px)] text-error font-medium tracking-widest pl-3 text-sm animate-[fade-in_300ms_ease-out]">
+          {errorMessage}
+        </p>
       )}
     </div>
   );
