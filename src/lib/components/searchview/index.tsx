@@ -50,9 +50,31 @@ const SearchView = ({ searchQuery, setCurrentView }: Props) => {
               </>
             ) : (
               <>
-                <p className="mb-2 text-md text-text-secondary font-primary">
-                  You might also like
-                </p>
+                {suggestions.status !== "error" && (
+                  <p className="mb-2 text-md text-text-secondary font-primary">
+                    You might also like
+                  </p>
+                )}
+
+                {suggestions.status === "error" && (
+                  <div>
+                    <p className="mb-6 text-sm tracking-widest text-center">
+                      Looks like we have an issue helping you with domain
+                      suggestions.
+                    </p>
+
+                    <button
+                      type="button"
+                      className="m-auto flex items-center gap-2 px-3 h-[32px] w-max py-1 text-xs tracking-wide rounded-lg bg-theme-secondary font-primary text-theme-primary"
+                      tabIndex={0}
+                      aria-label={`Try load suggestions for ${searchQuery} again`}
+                      onClick={() => suggestions.execute()}
+                    >
+                      Try again '{searchQuery}'
+                    </button>
+                  </div>
+                )}
+
                 {suggestions.result?.map((domain) => (
                   <DomainSearchResultRow
                     key={domain.domain}
