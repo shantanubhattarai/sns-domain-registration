@@ -46,6 +46,7 @@ export default {
       "field-border": "rgba(var(--field-border), <alpha-value>)",
       "text-primary": "rgba(var(--text-primary), <alpha-value>)",
       "text-secondary": "rgba(var(--text-secondary), <alpha-value>)",
+      "text-disabled": "rgba(var(--text-disabled), <alpha-value>)",
       accent: "rgba(var(--accent), <alpha-value>)",
       error: "rgba(var(--error), <alpha-value>)",
       success: "rgba(var(--success), <alpha-value>)",

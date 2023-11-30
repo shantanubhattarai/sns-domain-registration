@@ -13,7 +13,7 @@ const CartLinkButton = ({ setCurrentView }: Props) => {
   const { connected } = useWalletPassThrough();
   return (
     <button
-      className="flex items-center gap-1 ml-auto cursor-pointer text-theme-primary disabled:text-theme-secondary"
+      className="flex items-center gap-1 ml-auto cursor-pointer text-theme-primary disabled:text-text-disabled"
       disabled={!connected || isCartEmpty}
       onClick={() => {
         if (connected) setCurrentView("cart");

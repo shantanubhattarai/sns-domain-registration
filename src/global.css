@@ -12,3 +12,17 @@ body{
   background-color: var(--color-background);
   color: var(--color-foreground);
 }
+
+.toggle-dark-button{
+  padding: 4px 12px;
+  background: var(--color-background);
+  border: 1px solid #666666;
+  border-radius: 8px;
+  margin: 8px;
+  color: var(--color-foreground);
+}
+
+.toggle-dark-button svg{
+  width: 12px;
+  height: 12px;
+}
