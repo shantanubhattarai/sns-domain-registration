@@ -1,7 +1,7 @@
-import { useAsync } from "react-async-hook";
-import { useConnectionPassThrough } from "../contexts/connection-passthrough-provider";
 import { generateRandomDomain } from "../utils";
 import { getDomainsResult } from "./useSearch";
+import { useAsync } from "react-async-hook";
+import { useConnectionPassThrough } from "../contexts/connection-passthrough-provider";
 
 const URL = "https://sns-api.bonfida.com/v2/suggestion/search";
 

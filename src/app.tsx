@@ -1,5 +1,6 @@
 import "./index.css";
 import "@solana/wallet-adapter-react-ui/styles.css";
+import "./global.css";
 
 import {
   BitKeepWalletAdapter,
@@ -25,6 +26,7 @@ import {
   WalletModalProvider,
   useWalletModal,
 } from "@solana/wallet-adapter-react-ui";
+import { useEffect, useState } from "react";
 
 import { FoxWalletWalletAdapter } from "@foxwallet/wallet-adapter-foxwallet";
 import { ReactNode } from "react";
@@ -63,22 +65,30 @@ const Content = () => {
   const wallet = useWallet();
   const { connection } = useConnection();
   const { visible, setVisible } = useWalletModal();
-  // const [isDark, toggleDark] = useState(false);
+  const [isDark, toggleDark] = useState(false);
+
+  useEffect(() => {
+    if (isDark) {
+      document.body.classList.add("dark");
+    } else {
+      document.body.classList.remove("dark");
+    }
+  }, [isDark]);
 
   return (
     <>
-      {/* <button
+      <button
         className="px-4 py-2 border rounded bg-background-interactive border-theme-primary"
         onClick={() => toggleDark(!isDark)}
       >
         Toggle dark
-      </button> */}
+      </button>
 
       <Widget
         connection={connection}
         // endpoint={PUBLIC_RPC}
         passthroughWallet={{ ...wallet, visible, setVisible }}
-        // isDark={isDark}
+        isDark={isDark}
         rootWrapperClassNames=""
       />
     </>
