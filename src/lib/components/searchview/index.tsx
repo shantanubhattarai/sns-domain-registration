@@ -1,10 +1,10 @@
+import { useDomainSuggestions, useSearch } from "@bonfida/sns-react";
+
 import { CartContext } from "../../contexts/cart";
 import { CustomButton } from "../button";
 import { DomainCardSkeleton } from "../domain-card-skeleton";
 import { DomainSearchResultRow } from "../domain-search-result-row";
 import { useContext } from "react";
-import { useDomainSuggestions } from "../../hooks";
-import { useSearch } from "../../hooks";
 import { useWalletPassThrough } from "../../contexts/wallet-passthrough-provider";
 
 type Views = "home" | "search" | "cart";
@@ -16,13 +16,19 @@ type Props = {
 
 const SearchView = ({ searchQuery, setCurrentView }: Props) => {
   const { isCartEmpty } = useContext(CartContext);
-  const domains = useSearch(searchQuery);
-  const suggestions = useDomainSuggestions(searchQuery);
   const {
     connected,
     setVisible,
     visible: isWalletSelectorVisible,
+    connection,
   } = useWalletPassThrough();
+
+  const domains = useSearch({ connection: connection!, domain: searchQuery });
+  const suggestions = useDomainSuggestions({
+    connection: connection!,
+    domain: searchQuery,
+  });
+
   return (
     <>
       <div className="px-3 mb-3 overflow-auto animate-fade-in">
