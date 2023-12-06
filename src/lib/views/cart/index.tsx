@@ -2,7 +2,6 @@ import {
   FIDA_MINT,
   chunkIx,
   formatPrice,
-  priceFromLength,
   tokenList,
   unwrapSol,
   wrapSol,
@@ -15,6 +14,7 @@ import {
 } from "@solana/web3.js";
 import { useContext, useEffect, useState } from "react";
 import { usePyth, useWalletBalances } from "../../hooks";
+import { getDomainPriceFromName } from "@bonfida/spl-name-service";
 
 import BackButton from "../../components/cartview/back-button";
 import { BaseModal } from "../../components/modal";
@@ -58,7 +58,7 @@ export const CartView = ({ backHandler }: CartViewProps) => {
   const isSelectedTokenFIDA = selectedToken.mintAddress === FIDA_MINT;
   const discountMul = isSelectedTokenFIDA ? 0.95 : 1;
   const totalUsd = Object.values(cart).reduce(
-    (acc, v) => acc + priceFromLength(v.domain, discountMul),
+    (acc, v) => acc + getDomainPriceFromName(v.domain) * discountMul,
     0,
   );
 
